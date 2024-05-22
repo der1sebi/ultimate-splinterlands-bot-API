@@ -1,18 +1,20 @@
 --wild
-INSERT INTO "wild_CachedTeams" ("Ruleset1", "Ruleset2", "ManaCap", "WinRate", "GamesPlayed", "TeamHash", "RatingBracket")
+INSERT INTO "wild_CachedTeams" ("Ruleset1", "Ruleset2", "Ruleset3", "ManaCap", "WinRate", "GamesPlayed", "TeamHash", "RatingBracket")
 SELECT * FROM
     (
     SELECT team_results."Ruleset1",
             team_results."Ruleset2",
+            team_results."Ruleset3",
             team_results."ManaCap",
-            avg(team_results."WinFlag") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."ManaCap", team_results."RatingBracket") * 100 as "WinRate",
-            count(team_results."TeamHash") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."ManaCap", team_results."RatingBracket") as "GamesPlayed",
+            avg(team_results."WinFlag") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."Ruleset3", team_results."ManaCap", team_results."RatingBracket") * 100 as "WinRate",
+            count(team_results."TeamHash") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."Ruleset3",team_results."ManaCap", team_results."RatingBracket") as "GamesPlayed",
             team_results."TeamHash",
             team_results."RatingBracket"
             
     FROM 
         (SELECT g."Ruleset1",
             g."Ruleset2",
+            g."Ruleset3",
             g."ManaCap",
             CASE 
                  WHEN tg."Result" = 'W' THEN CAST(1 AS DECIMAL) 
@@ -36,24 +38,26 @@ SELECT * FROM
 			-- etc
             ) aggregated_results
 WHERE "GamesPlayed" > 2
-GROUP BY 1,2,3,4,5,6,7
-ON CONFLICT ("Ruleset1", "Ruleset2", "ManaCap", "TeamHash", "RatingBracket") DO UPDATE SET "WinRate"=EXCLUDED."WinRate", "GamesPlayed" = excluded."GamesPlayed";
+GROUP BY 1,2,3,4,5,6,7,8
+ON CONFLICT ("Ruleset1", "Ruleset2", "Ruleset3", "ManaCap", "TeamHash", "RatingBracket") DO UPDATE SET "WinRate"=EXCLUDED."WinRate", "GamesPlayed" = excluded."GamesPlayed";
 
 --modern
-INSERT INTO "modern_CachedTeams" ("Ruleset1", "Ruleset2", "ManaCap", "WinRate", "GamesPlayed", "TeamHash", "RatingBracket")
+INSERT INTO "modern_CachedTeams" ("Ruleset1", "Ruleset2", "Ruleset3", "ManaCap", "WinRate", "GamesPlayed", "TeamHash", "RatingBracket")
 SELECT * FROM
     (
     SELECT team_results."Ruleset1",
             team_results."Ruleset2",
+            team_results."Ruleset3",
             team_results."ManaCap",
-            avg(team_results."WinFlag") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."ManaCap", team_results."RatingBracket") * 100 as "WinRate",
-            count(team_results."TeamHash") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."ManaCap", team_results."RatingBracket") as "GamesPlayed",
+            avg(team_results."WinFlag") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."Ruleset3", team_results."ManaCap", team_results."RatingBracket") * 100 as "WinRate",
+            count(team_results."TeamHash") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."Ruleset3", team_results."ManaCap", team_results."RatingBracket") as "GamesPlayed",
             team_results."TeamHash",
             team_results."RatingBracket"
             
     FROM 
         (SELECT g."Ruleset1",
             g."Ruleset2",
+            g."Ruleset3",
             g."ManaCap",
             CASE 
                  WHEN tg."Result" = 'W' THEN CAST(1 AS DECIMAL) 
@@ -77,5 +81,5 @@ SELECT * FROM
 			-- etc
             ) aggregated_results
 WHERE "GamesPlayed" > 2
-GROUP BY 1,2,3,4,5,6,7
-ON CONFLICT ("Ruleset1", "Ruleset2", "ManaCap", "TeamHash", "RatingBracket") DO UPDATE SET "WinRate"=EXCLUDED."WinRate", "GamesPlayed" = excluded."GamesPlayed";
+GROUP BY 1,2,3,4,5,6,7,8
+ON CONFLICT ("Ruleset1", "Ruleset2", "Ruleset3", "ManaCap", "TeamHash", "RatingBracket") DO UPDATE SET "WinRate"=EXCLUDED."WinRate", "GamesPlayed" = excluded."GamesPlayed";

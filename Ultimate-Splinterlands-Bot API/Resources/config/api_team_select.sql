@@ -16,6 +16,7 @@ WHERE
    aggregated_results."GamesPlayed" > @minGamesPlayed
    AND aggregated_results."Ruleset1" = '@ruleset1'
    AND aggregated_results."Ruleset2" = '@ruleset2'
+   AND aggregated_results."Ruleset3" = '@ruleset3'
    AND aggregated_results."RatingBracket" @ratingBracket -- special case
    AND aggregated_results."ManaCap" = @manaCap
    @additionalFilters

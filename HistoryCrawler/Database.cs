@@ -296,7 +296,7 @@ namespace HistoryCrawler
 
                     sqlEnd.Add(gameType, @")
             , ins AS (
-               INSERT INTO """ + GAME_TYPE_PREFIXES[i] + @"_Game"" (""QueueIdHash"", ""QueueId1"", ""Winner"", ""Loser"", ""Rating"", ""CreatedDate"", ""MatchType"", ""ManaCap"", ""Ruleset1"", ""Ruleset2"", ""Inactive"", ""TournamentSettings"") 
+               INSERT INTO """ + GAME_TYPE_PREFIXES[i] + @"_Game"" (""QueueIdHash"", ""QueueId1"", ""Winner"", ""Loser"", ""Rating"", ""CreatedDate"", ""MatchType"", ""ManaCap"", ""Ruleset1"", ""Ruleset2"", ""Ruleset3"", ""Inactive"", ""TournamentSettings"") 
                SELECT * FROM input_rows
                ON CONFLICT (""QueueIdHash"", ""QueueId1"") DO NOTHING
                RETURNING ""Id"", ""QueueIdHash""
@@ -311,7 +311,7 @@ namespace HistoryCrawler
                 JOIN   """ + GAME_TYPE_PREFIXES[i] + @"_Game"" g USING (""QueueIdHash"", ""QueueId1"");");
 
                     // https://stackoverflow.com/a/42217872
-                    sql.Add(gameType, @"WITH input_rows(""QueueIdHash"", ""QueueId1"", ""Winner"", ""Loser"", ""Rating"", ""CreatedDate"", ""MatchType"", ""ManaCap"", ""Ruleset1"", ""Ruleset2"", ""Inactive"", ""TournamentSettings"") AS (
+                    sql.Add(gameType, @"WITH input_rows(""QueueIdHash"", ""QueueId1"", ""Winner"", ""Loser"", ""Rating"", ""CreatedDate"", ""MatchType"", ""ManaCap"", ""Ruleset1"", ""Ruleset2"", ""Ruleset3"", ""Inactive"", ""TournamentSettings"") AS (
                                 VALUES");
                 }
 
@@ -336,7 +336,7 @@ namespace HistoryCrawler
                                 {
                                     continue;
                                 }
-                                sql[gameType] += $"(text '{firstGame.QueueIdHash}', text '{firstGame.QueueId1}', text '{firstGame.Winner}', text '{firstGame.Loser}', integer '{firstGame.Rating}', timestamp '{firstGame.CreatedDate}', text '{firstGame.MatchType}', integer '{firstGame.ManaCap}', text '{firstGame.Ruleset1}', text '{firstGame.Ruleset2}', text '{firstGame.Inactive}', text '{firstGame.TournamentSettings}')";
+                                sql[gameType] += $"(text '{firstGame.QueueIdHash}', text '{firstGame.QueueId1}', text '{firstGame.Winner}', text '{firstGame.Loser}', integer '{firstGame.Rating}', timestamp '{firstGame.CreatedDate}', text '{firstGame.MatchType}', integer '{firstGame.ManaCap}', text '{firstGame.Ruleset1}', text '{firstGame.Ruleset2}', text '{firstGame.Ruleset3}', text '{firstGame.Inactive}', text '{firstGame.TournamentSettings}')";
                                 games[gameType].TryAdd(firstGame.QueueIdHash, firstGame);
                                 ps.ElementAt(i).games.Remove(firstGame);
                             }
@@ -358,7 +358,7 @@ namespace HistoryCrawler
                             return;
                         }
 
-                        sql[game.Format] += $",('{game.QueueIdHash}','{game.QueueId1}','{game.Winner}','{game.Loser}',{game.Rating},'{game.CreatedDate}','{game.MatchType}',{game.ManaCap},'{game.Ruleset1}','{game.Ruleset2}','{game.Inactive}','{game.TournamentSettings}')";
+                        sql[game.Format] += $",('{game.QueueIdHash}','{game.QueueId1}','{game.Winner}','{game.Loser}',{game.Rating},'{game.CreatedDate}','{game.MatchType}',{game.ManaCap},'{game.Ruleset1}','{game.Ruleset2}','{game.Ruleset3}','{game.Inactive}','{game.TournamentSettings}')";
 
                         games[game.Format].TryAdd(game.QueueIdHash, game);
                     });

@@ -20,6 +20,7 @@ namespace HistoryCrawler.Model
         public int ManaCap { get; init; }
         public string Ruleset1 { get; init; }
         public string Ruleset2 { get; init; }
+        public string Ruleset3 { get; init; }
         public string Inactive { get; init; }
         public string? TournamentSettings { get; init; }
         [NotMapped]
@@ -70,6 +71,7 @@ namespace HistoryCrawler.Model
             string[] rulesets = ((string?)game["ruleset"] ?? throw new ArgumentNullException(nameof(game))).Split('|');
             Ruleset1 = rulesets[0];
             Ruleset2 = rulesets.Length > 1 ? rulesets[1] : "";
+            Ruleset3 = rulesets.Length > 2 ? rulesets[2] : "";
             string winner = (string?)game["winner"] ?? throw new ArgumentNullException(nameof(game));
             string player1 = (string?)game["player_1"] ?? throw new ArgumentNullException(nameof(game));
             string player2 = (string?)game["player_2"] ?? throw new ArgumentNullException(nameof(game));

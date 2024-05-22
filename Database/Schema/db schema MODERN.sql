@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS "modern_Game" (
 	"ManaCap"	INTEGER NOT NULL CHECK("ManaCap" <= 100),
 	"Ruleset1"	TEXT NOT NULL,
 	"Ruleset2"	TEXT NOT NULL,
+	"Ruleset3"	TEXT NOT NULL,
 	"Inactive"	TEXT NOT NULL,
 	"TournamentSettings"	TEXT,
 	unique("QueueIdHash", "QueueId1")  
@@ -47,12 +48,13 @@ CREATE TABLE IF NOT EXISTS "modern_CachedTeams" (
 	"Id"	serial primary key,
 	"Ruleset1"	TEXT NOT NULL,
 	"Ruleset2"	TEXT NOT NULL,
+	"Ruleset3"	TEXT NOT NULL,
 	"ManaCap"	INTEGER NOT NULL,
 	"WinRate"	numeric NOT NULL,
     "GamesPlayed"    BIGINT NOT NULL,
     "TeamHash"  BIGINT NOT NULL,
     "RatingBracket"  INTEGER NOT NULL,
-	UNIQUE("Ruleset1", "Ruleset2", "ManaCap", "TeamHash", "RatingBracket"));
+	UNIQUE("Ruleset1", "Ruleset2", "Ruleset3", "ManaCap", "TeamHash", "RatingBracket"));
 CREATE INDEX ON public."modern_CachedTeams" ("Ruleset1");
 CREATE INDEX ON public."modern_CachedTeams" ("TeamHash");
 CREATE INDEX ON public."modern_CachedTeams" ("RatingBracket");

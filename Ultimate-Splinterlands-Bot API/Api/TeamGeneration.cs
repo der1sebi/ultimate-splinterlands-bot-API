@@ -358,6 +358,7 @@ namespace Ultimate_Splinterlands_Bot_API.Api
                 .Replace("@manaCap", manaCap.ToString())
                 .Replace("@ruleset1", System.Web.HttpUtility.HtmlEncode(rulesets[0]))
                 .Replace("@ruleset2", System.Web.HttpUtility.HtmlEncode(rulesets.Length > 1 ? rulesets[1] : ""))
+                .Replace("@ruleset3", System.Web.HttpUtility.HtmlEncode(rulesets.Length > 2 ? rulesets[2] : ""))
                 .Replace("@additionalFilters", additionalFilters);
 
             using NpgsqlDataReader reader = cmd.ExecuteReader();

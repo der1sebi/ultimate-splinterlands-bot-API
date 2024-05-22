@@ -3,11 +3,12 @@ SELECT sub_select."Id"
     FROM(
         SELECT main_select."Id",
             main_select."Ruleset1",
-            main_select."Ruleset2", 
+            main_select."Ruleset2",
+            main_select."Ruleset3",  
             main_select."RatingBracket",
             main_select."CreatedDate",
             ROW_NUMBER () OVER (
-                                PARTITION BY main_select."Ruleset1", main_select."Ruleset2", main_select."RatingBracket"
+                                PARTITION BY main_select."Ruleset1", main_select."Ruleset2", main_select."Ruleset3", main_select."RatingBracket"
                                 ORDER BY main_select."CreatedDate" DESC)
         FROM 
         (
@@ -15,6 +16,7 @@ SELECT sub_select."Id"
                     g."Id",
                     g."Ruleset1",
                     g."Ruleset2",
+                    g."Ruleset3",
                      CASE
                          WHEN g."Rating" BETWEEN 0 AND 120 THEN 1
                          WHEN g."Rating" BETWEEN 121 AND 400 THEN 1
