@@ -7,7 +7,7 @@ SELECT * FROM
             team_results."Ruleset3",
             team_results."ManaCap",
             avg(team_results."WinFlag") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."Ruleset3", team_results."ManaCap", team_results."RatingBracket") * 100 as "WinRate",
-            count(team_results."TeamHash") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."Ruleset3",team_results."ManaCap", team_results."RatingBracket") as "GamesPlayed",
+            count(team_results."TeamHash") OVER (PARTITION BY team_results."TeamHash", team_results."Ruleset1", team_results."Ruleset2", team_results."Ruleset3", team_results."ManaCap", team_results."RatingBracket") as "GamesPlayed",
             team_results."TeamHash",
             team_results."RatingBracket"
             
